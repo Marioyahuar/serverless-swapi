@@ -3,5 +3,8 @@
     "aws-sdk": "^2.1403.0",
     "axios": "^1.4.0",
     "serverless-http": "^3.2.0"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0"
   }
 }
