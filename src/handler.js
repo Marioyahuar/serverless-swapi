@@ -54,7 +54,7 @@ module.exports.list = async () => {
 
 module.exports.starWars = async (event) => {
   try {
-    console.log("event", event);
+    const id = event.pathParameters.id;
     const starWarsData = await starWarsService.getStarWarsData(event);
     await peopleRepository.create(starWarsData);
     return {
