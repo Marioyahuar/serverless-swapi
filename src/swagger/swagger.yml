@@ -1,0 +1,153 @@
+openapi: 3.0.0
+info:
+  title: serverless-swapi
+  version: 1.0.0
+  description: API para obtener y almacenar información de SWAPI
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/MARIOYAHUAR_1/serverless-swapi/1.0.0
+  - url: https://3zfnlr6ph9.execute-api.us-east-2.amazonaws.com/{basePath}/
+    variables:
+      basePath:
+        default: dev
+
+paths:
+  /crear:
+    post:
+      summary: Crear un personaje de Star Wars en DynamoDB
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StarWarsCharacter"
+      responses:
+        "200":
+          description: Datos de Star Wars almacenados correctamente
+        "500":
+          description: Error al crear elemento
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /starwars/{id}:
+    get:
+      summary: Obtener información de un personaje de Star Wars desde SWAPI
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del personaje de Star Wars
+      responses:
+        "200":
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StarWarsCharacter"
+        "500":
+          description: Error al obtener informacion del personaje
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /starwarsToDB/{id}:
+    get:
+      summary: Obtener información de un personaje de Star Wars desde SWAPI y guardarlo en DynamoDB
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del personaje de Star Wars
+      responses:
+        "200":
+          description: Datos de Star Wars consultados y almacenados correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StarWarsCharacter"
+        "500":
+          description: Error al obtener y/o almacenar un personaje
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /obtener:
+    get:
+      summary: Obtener la lista de personajes de Star Wars
+      responses:
+        "200":
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StarWarsCharacter"
+        "500":
+          description: Error al obtener la lista de elementos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    StarWarsCharacter:
+      type: object
+      properties:
+        nombre:
+          type: string
+        anio_nacimiento:
+          type: string
+        color_ojos:
+          type: string
+        peliculas:
+          type: array
+          items:
+            type: string
+        genero:
+          type: string
+        color_cabello:
+          type: string
+        altura:
+          type: string
+        planeta_origen:
+          type: string
+        masa:
+          type: string
+        color_piel:
+          type: string
+        creado:
+          type: string
+          format: date-time
+        editado:
+          type: string
+          format: date-time
+        especies:
+          type: array
+          items:
+            type: string
+        naves_estelares:
+          type: array
+          items:
+            type: string
+        url:
+          type: string
+        vehiculos:
+          type: array
+          items:
+            type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
