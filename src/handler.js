@@ -4,24 +4,12 @@ const StarWarsService = require("./services/starWarsService");
 const peopleRepository = new PeopleRepository();
 const starWarsService = new StarWarsService();
 
-module.exports.hello = async (event) => {
-  return {
-    statusCode: 200,
-    body: JSON.stringify(
-      {
-        message: "Hello, world!",
-        input: event,
-      },
-      null,
-      2
-    ),
-  };
-};
-
 module.exports.create = async (event) => {
-  const data = JSON.parse(event.body);
-
+  const data = event.body;
   try {
+    if (data === null || data === undefined) {
+      throw new Error("Data is null");
+    }
     await peopleRepository.create(data);
     return {
       statusCode: 200,
@@ -35,7 +23,7 @@ module.exports.create = async (event) => {
   }
 };
 
-module.exports.list = async () => {
+module.exports.listFromDB = async () => {
   try {
     const items = await peopleRepository.getAll();
     return {
@@ -52,16 +40,34 @@ module.exports.list = async () => {
   }
 };
 
-module.exports.starWars = async (event) => {
+module.exports.getFromSwapiAndCreate = async (event) => {
   try {
     const id = event.pathParameters.id;
-    const starWarsData = await starWarsService.getStarWarsData(event);
+    const starWarsData = await starWarsService.getStarWarsData(id);
     await peopleRepository.create(starWarsData);
     return {
       statusCode: 200,
       body: JSON.stringify({
         message: "Datos de Star Wars almacenados correctamente",
       }),
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        error: "No se pudo obtener la información de Star Wars",
+      }),
+    };
+  }
+};
+
+module.exports.getFromSwapi = async (event) => {
+  try {
+    const id = event.pathParameters.id;
+    const starWarsData = await starWarsService.getStarWarsData(id);
+    return {
+      statusCode: 200,
+      body: JSON.stringify(starWarsData),
     };
   } catch (error) {
     return {

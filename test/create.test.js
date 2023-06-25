@@ -1,10 +1,11 @@
 const { create } = require("../src/handler");
+const mock = require("../src/utils/mock.json");
 
 describe("create", () => {
   it("should return a 200 status code and a success message", async () => {
     const event = {
-      body: JSON.stringify({}),
-    }; // Puedes ajustar el evento y el cuerpo según sea necesario
+      body: mock.postBody,
+    };
     const response = await create(event);
 
     expect(response.statusCode).toBe(200);
@@ -14,9 +15,7 @@ describe("create", () => {
   });
 
   it("should return a 500 status code and an error message when creation fails", async () => {
-    const event = {
-      body: JSON.stringify({}),
-    }; // Puedes ajustar el evento y el cuerpo según sea necesario
+    const event = {}; // Puedes ajustar el evento y el cuerpo según sea necesario
     const response = await create(event);
 
     expect(response.statusCode).toBe(500);

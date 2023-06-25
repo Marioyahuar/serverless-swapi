@@ -7,10 +7,14 @@ provider:
   runtime: nodejs18.x
   region: us-east-2
 
-functions:
-  hello:
-    handler: src/handler.hello
+plugins:
+  - serverless-dotenv
 
+custom:
+  dotenv:
+    path: .env
+
+functions:
   create:
     handler: src/handler.create
     events:
@@ -19,16 +23,24 @@ functions:
           method: post
           cors: true
 
-  list:
-    handler: src/handler.list
+  listFromDB:
+    handler: src/handler.listFromDB
     events:
       - http:
           path: obtener
           method: get
           cors: true
 
-  starWars:
-    handler: src/handler.starWars
+  getFromSwapiAndCreate:
+    handler: src/handler.getFromSwapiAndCreate
+    events:
+      - http:
+          path: starwarsToDB/{id}
+          method: get
+          cors: true
+
+  getFromSwapi:
+    handler: src/handler.getFromSwapi
     events:
       - http:
           path: starwars/{id}
