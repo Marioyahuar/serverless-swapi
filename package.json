@@ -9,5 +9,8 @@
     "dotenv": "^16.3.1",
     "jest": "^29.5.0",
     "serverless-dotenv": "^1.0.0-beta.2"
+  },
+  "scripts": {
+    "test": "jest"
   }
 }
