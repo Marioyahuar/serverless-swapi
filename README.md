@@ -74,3 +74,8 @@ Para ejecutar las pruebas de la carpeta test ejecuta el siguiente comando:
 ```
 npm test
 ````
+
+## Documentación 
+
+Puedes revisar la documentación Swagger en el siguiente link: https://app.swaggerhub.com/apis/MARIOYAHUAR_1/serverless-swapi/1.0.0
+
